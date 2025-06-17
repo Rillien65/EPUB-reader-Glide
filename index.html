@@ -8,18 +8,88 @@
   <style>
     body, html {
       margin: 0;
+      padding: 0;
       height: 100%;
       overflow: hidden;
-      background: #fff;
+      font-family: sans-serif;
+      background-color: #fff;
+      color: #111;
     }
+
+    .dark {
+      background-color: #111;
+      color: #eee;
+    }
+
+    #controls {
+      padding: 10px;
+      background: #f3f3f3;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .dark #controls {
+      background: #222;
+    }
+
     #epub-reader {
+      height: calc(100vh - 160px);
+    }
+
+    #comments {
+      height: 100px;
+      overflow-y: auto;
+      padding: 10px;
+      background: #fafafa;
+    }
+
+    .dark #comments {
+      background: #1a1a1a;
+      color: #ddd;
+    }
+
+    textarea {
       width: 100%;
-      height: 100vh;
+      height: 50px;
+    }
+
+    button {
+      padding: 5px 10px;
+    }
+
+    input[type="range"] {
+      width: 100px;
+    }
+
+    /* Prevent text copy */
+    * {
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
     }
   </style>
 </head>
 <body>
+  <div id="controls">
+    <div>
+      <label>Font Size: <input type="range" id="font-size" min="12" max="36" value="16" /></label>
+    </div>
+    <div>
+      <button id="theme-toggle">Toggle Dark Mode</button>
+    </div>
+  </div>
+
   <div id="epub-reader"></div>
+
+  <form id="comment-form">
+    <textarea id="comment" placeholder="Leave a comment..."></textarea>
+    <button type="submit">Submit Comment</button>
+  </form>
+
+  <div id="comments"></div>
+
   <script src="reader.js"></script>
 </body>
 </html>
