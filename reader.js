@@ -1,72 +1,65 @@
-// Set your public EPUB URL here (must have CORS enabled)
 const epubUrl = "https://s3.amazonaws.com/moby-dick/moby-dick.epub";
 
 const book = ePub(epubUrl);
 const rendition = book.renderTo("epub-reader", {
   width: "100%",
   height: "100%",
-  flow: "paginated", // or "scrolled" for vertical scrolling
+  flow: "paginated"
 });
 
 rendition.display();
 
 // Font size control
-const fontSizeSlider = document.getElementById("font-size");
-fontSizeSlider.addEventListener("input", (e) => {
-  rendition.themes.fontSize(`${e.target.value}px`);
+const fontSizeInput = document.getElementById("font-size");
+fontSizeInput.addEventListener("input", (e) => {
+  const size = e.target.value + "px";
+  rendition.themes.fontSize(size);
 });
 
-// Dark mode toggle
-const themeToggle = document.getElementById("theme-toggle");
-let dark = false;
+// Theme toggle
+const themeSelector = document.getElementById("theme-selector");
+themeSelector.addEventListener("change", (e) => {
+  const theme = e.target.value;
+  document.body.className = theme;
 
-themeToggle.addEventListener("click", () => {
-  dark = !dark;
-  document.body.classList.toggle("dark", dark);
-
-  if (dark) {
+  if (theme === "dark") {
     rendition.themes.register("dark", {
-      body: {
-        background: "#111",
-        color: "#eee"
-      },
-      "::selection": {
-        background: "#444"
-      }
+      body: { background: "#111", color: "#eee" },
+      "::selection": { background: "#444" }
     });
     rendition.themes.select("dark");
+  } else if (theme === "sepia") {
+    rendition.themes.register("sepia", {
+      body: { background: "#f4ecd8", color: "#5b4636" }
+    });
+    rendition.themes.select("sepia");
   } else {
     rendition.themes.select(null);
   }
 });
 
-// Optional: Swipe navigation support for touch devices
-let touchStartX = 0;
-const readerArea = document.getElementById("epub-reader");
+// Swipe support
+let startX = 0;
+const readerEl = document.getElementById("epub-reader");
 
-readerArea.addEventListener("touchstart", (e) => {
-  touchStartX = e.changedTouches[0].screenX;
+readerEl.addEventListener("touchstart", (e) => {
+  startX = e.changedTouches[0].screenX;
 });
 
-readerArea.addEventListener("touchend", (e) => {
-  const dx = e.changedTouches[0].screenX - touchStartX;
+readerEl.addEventListener("touchend", (e) => {
+  const dx = e.changedTouches[0].screenX - startX;
   if (dx > 50) rendition.prev();
-  if (dx < -50) rendition.next();
+  else if (dx < -50) rendition.next();
 });
 
-// Optional: Simple comment system (only in-page)
-const form = document.getElementById("comment-form");
-const commentBox = document.getElementById("comment");
-const comments = document.getElementById("comments");
+// Progress bar
+book.ready.then(() => {
+  const progressBar = document.getElementById("progress-bar");
 
-form.addEventListener("submit", (e) => {
-  e.preventDefault();
-  const text = commentBox.value.trim();
-  if (text !== "") {
-    const p = document.createElement("p");
-    p.textContent = text;
-    comments.appendChild(p);
-    commentBox.value = "";
-  }
+  rendition.on("relocated", (location) => {
+    const percentage = book.locations.percentageFromCfi(location.start.cfi);
+    progressBar.style.width = `${Math.round(percentage * 100)}%`;
+  });
+
+  return book.locations.generate(1600);
 });
-
