@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>EPUB Reader</title>
+  <title>EPUB Reader - Dracula</title>
   <script src="https://cdn.jsdelivr.net/npm/epubjs@0.3.88/dist/epub.min.js"></script>
   <style>
     body, html {
@@ -62,7 +62,6 @@
       width: 100px;
     }
 
-    /* Prevent text copy */
     * {
       -webkit-user-select: none;
       -moz-user-select: none;
@@ -90,6 +89,47 @@
 
   <div id="comments"></div>
 
-  <script src="reader.js"></script>
+  <script>
+    const readerElement = document.getElementById("epub-reader");
+
+    // Dracula EPUB URL (direct .epub link from Standard Ebooks GitHub mirror)
+    const bookUrl = "https://standardebooks.org/ebooks/bram-stoker/dracula/downloads/bram-stoker_dracula.epub";
+
+    const book = ePub(bookUrl);
+    const rendition = book.renderTo("epub-reader", {
+      width: "100%",
+      height: "100%",
+    });
+
+    rendition.display();
+
+    // Font size control
+    const fontSizeSlider = document.getElementById("font-size");
+    fontSizeSlider.addEventListener("input", () => {
+      rendition.themes.fontSize(fontSizeSlider.value + "px");
+    });
+
+    // Dark mode toggle
+    const themeToggle = document.getElementById("theme-toggle");
+    themeToggle.addEventListener("click", () => {
+      document.body.classList.toggle("dark");
+    });
+
+    // Comments section
+    const commentForm = document.getElementById("comment-form");
+    const commentInput = document.getElementById("comment");
+    const commentsDiv = document.getElementById("comments");
+
+    commentForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const commentText = commentInput.value.trim();
+      if (commentText) {
+        const commentEl = document.createElement("p");
+        commentEl.textContent = commentText;
+        commentsDiv.appendChild(commentEl);
+        commentInput.value = "";
+      }
+    });
+  </script>
 </body>
 </html>
