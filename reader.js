@@ -1,4 +1,5 @@
-const epubUrl = "https://s3.amazonaws.com/moby-dick/moby-dick.epub";
+const epubUrl = "https://standardebooks.org/ebooks/lewis-carroll/alice-s-adventures-in-wonderland/downloads/lewis-carroll_alice-s-adventures-in-wonderland.epub";
+
 
 const book = ePub(epubUrl);
 const rendition = book.renderTo("epub-reader", {
