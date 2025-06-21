@@ -3,24 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>EPUB Reader - Sample EPUB</title>
+  <title>EPUB Reader - Moby Dick Sample</title>
   <script src="https://cdn.jsdelivr.net/npm/epubjs@0.3.88/dist/epub.min.js"></script>
   <style>
     body, html {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      overflow: hidden;
-      font-family: sans-serif;
-      background-color: #fff;
-      color: #111;
+      margin: 0; padding: 0; height: 100%; font-family: sans-serif;
+      background-color: #fff; color: #111;
+      display: flex; flex-direction: column;
+      height: 100vh;
     }
-
     .dark {
-      background-color: #111;
-      color: #eee;
+      background-color: #111; color: #eee;
     }
-
     #controls {
       padding: 10px;
       background: #f3f3f3;
@@ -28,73 +22,24 @@
       justify-content: space-between;
       align-items: center;
     }
-
     .dark #controls {
       background: #222;
     }
-
     #epub-reader {
-      height: calc(100vh - 160px);
-    }
-
-    #comments {
-      height: 100px;
-      overflow-y: auto;
-      padding: 10px;
-      background: #fafafa;
-    }
-
-    .dark #comments {
-      background: #1a1a1a;
-      color: #ddd;
-    }
-
-    textarea {
+      flex-grow: 1;
       width: 100%;
-      height: 50px;
+      height: 100%;
+      overflow: auto;
+      border-top: 1px solid #ccc;
     }
-
-    button {
-      padding: 5px 10px;
-    }
-
     input[type="range"] {
       width: 100px;
     }
-
-    * {
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
+    button {
+      padding: 5px 10px;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
-  <div id="controls">
-    <div>
-      <label>Font Size: <input type="range" id="font-size" min="12" max="36" value="16" /></label>
-    </div>
-    <div>
-      <button id="theme-toggle">Toggle Dark Mode</button>
-    </div>
-  </div>
-
-  <div id="epub-reader"></div>
-
-  <form id="comment-form">
-    <textarea id="comment" placeholder="Leave a comment..."></textarea>
-    <button type="submit">Submit Comment</button>
-  </form>
-
-  <div id="comments"></div>
-
-  <script>
-    const readerElement = document.getElementById("epub-reader");
-
-    // CORS-enabled sample EPUB from GitHub raw
-    const bookUrl = "https://raw.githubusercontent.com/bmaupin/epub-samples/master/minimal/epub-2.0/sample.epub";
-
-    const book = ePub(bookUrl);
-    const rendition = book.renderTo("epub-reader", {
-      width
+  <div id="con
