@@ -2,29 +2,26 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>eBook Reader</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jessica Hall Reader</title>
   <link rel="stylesheet" href="style.css" />
-  <script src="https://cdn.jsdelivr.net/npm/epubjs@0.3.88/dist/epub.min.js"></script>
 </head>
 <body>
-  <div id="controls">
-    <label>Font Size: 
-      <input type="range" id="font-size" min="12" max="36" value="16" />
-    </label>
-    <select id="theme-selector">
-      <option value="light">☀️ Light</option>
-      <option value="sepia">📜 Sepia</option>
-      <option value="dark">🌙 Dark</option>
-    </select>
+  <div id="reader-container">
+    <div id="epub-reader"></div>
+    <div id="audio-player">
+      <audio id="audio" controls></audio>
+      <div class="controls">
+        <button onclick="changeSpeed(-0.25)">−</button>
+        <span id="speed">1.0x</span>
+        <button onclick="changeSpeed(0.25)">+</button>
+      </div>
+    </div>
   </div>
 
-  <div id="progress-container">
-    <div id="progress-bar"></div>
-  </div>
-
-  <div id="epub-reader"></div>
-
+  <script src="https://cdn.jsdelivr.net/npm/epubjs/dist/epub.min.js"></script>
+  <script src="firebase-config.js"></script>
   <script src="reader.js"></script>
+  <script src="audio.js"></script>
 </body>
 </html>
