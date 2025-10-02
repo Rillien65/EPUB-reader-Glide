@@ -12,13 +12,13 @@ Powered by Firebase for content protection and Glide for app integration.
 ## 📁 Project Structure
 
 Jessica-Hall-Reader/
-index.html   #Main reader interface
-style.css    #Styling for reader and controls
-reader.js.   #EPUB rendering logic
-audio.js.    #Audiobook playback logic
-firebase-config.js   #Firebase setup for secure access
-README.md.   #Project overview and instructions
-gitignore.   #Prevents committing sensitive of bulky files
+- index.html   #Main reader interface
+- style.css    #Styling for reader and controls
+- reader.js.   #EPUB rendering logic
+- audio.js.    #Audiobook playback logic
+- firebase-config.js   #Firebase setup for secure access
+- README.md.   #Project overview and instructions
+- gitignore.   #Prevents committing sensitive of bulky files
 
 ## 📦 Setup Instructions
 
